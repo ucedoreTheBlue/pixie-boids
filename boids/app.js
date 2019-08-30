@@ -1,5 +1,5 @@
 let type = "WebGL";
-if(!PIXI.utils.isWebGLSupported()){
+if (!PIXI.utils.isWebGLSupported()) {
     type = "canvas"
 }
 PIXI.utils.sayHello(type);
@@ -8,28 +8,41 @@ const app = new PIXI.Application({
 });
 document.body.appendChild(app.view);
 
-const thing = new PIXI.Graphics();
-app.stage.addChild(thing);
-thing.x = 800 / 2;
-thing.y = 600 / 2;
+function renderBoids(x, y) {
+    const boid = new PIXI.Graphics();
+    app.stage.addChild(boid);
+    boid.x = x;
+    boid.y = y;
+    let xspeed = 5;
+    //let yspeed = Math.floor(Math.random()*6);
+    let xcount = boid.x;
+    app.ticker.add(() => {
 
-let count = 0;
+        xcount += xspeed;
 
+        boid.clear();
+        boid.lineStyle(0, 0xff0000, 1);
+        boid.beginFill(0xffFF00, 0.5);
 
-app.ticker.add(() => {
-    count += 2;
+        if (xcount >= 795) {
+            boid.moveTo(boid.x, 40);
+            boid.lineTo(boid.x + 5, 50);
+            boid.lineTo(boid.x - 5, 50);
+            boid.closePath();
+            xcount = 0;
+            boid.x = 0;
+        }
+        else {
+            boid.moveTo(boid.x + xcount, 40);
+            boid.lineTo(boid.x + xcount + 5, 50);
+            boid.lineTo(boid.x + xcount - 5, 50);
+            boid.closePath();
+        }
 
-    thing.clear();
-    thing.lineStyle(0, 0xff0000, 1);
-    thing.beginFill(0xffFF00, 0.5);
+    });
+}
 
-    thing.moveTo(count-400, 30);
-    thing.lineTo(count-390, 50);
-    thing.lineTo(count-410, 50);
-    thing.closePath();
-    if (count === 790) {
-        count=0;
-    }
-});
-
+for (let i = 0; i < 800; i += 50) {
+    renderBoids(Math.floor(Math.random()*600), i)
+}
 console.log("loading complete");
