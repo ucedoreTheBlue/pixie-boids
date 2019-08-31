@@ -14,7 +14,7 @@ function renderBoids(x, y) {
     app.stage.addChild(boid);
     boid.x = x;
     boid.y = y;
-    let xspeed = Math.floor(Math.random()*5);
+    let xspeed = Math.random();
     let yspeed = Math.sqrt((25-(xspeed*xspeed)));
     let xcoordinate = boid.x;
     let ycoordinate= boid.y;
@@ -44,7 +44,7 @@ function renderBoids(x, y) {
             boid.lineTo(boid.x - 5, 50);
             boid.closePath();
             ycoordinate = 0;
-            boid.y = 0;
+            boid.y = -300;
         }
         else {
             boid.moveTo(boid.x + xcoordinate,ycoordinate+10);
@@ -55,6 +55,7 @@ function renderBoids(x, y) {
 
     });
 
+    boid.rotation = xspeed
 
 }
 let flightData = {};
@@ -71,9 +72,9 @@ for(let i = 0; i < boidList.length; i++){
     };
     console.log(flightData[i])
 }
-              /*
+/*
 setInterval(() => {
     console.log(flightData)
 }, 10);
-             */
+  */
 console.log("end of first loop");
